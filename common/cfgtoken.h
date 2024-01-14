@@ -57,6 +57,7 @@
 #define CFGTOKEN_BORDER       0x00004256 // "VB\xXX\x00" Custom default BORDER
 
 #define CFGTOKEN_VIDEO7       0x00003756 // "V7\xXX\x00" Video 7 Enable / Disable
+#define CFGTOKEN_SCANLINE     0x00005356 // "VS\xXX\x00" Video Scan Line Emulation Enable / Disable
 #define CFGTOKEN_RGBCOLOR     0x00005043 // "CP\xXX\x04" RGB Palette Entry Override
 
 #define CFGTOKEN_INTERP       0x00004956 // "VI\x0X\x00" RGB Interpolation

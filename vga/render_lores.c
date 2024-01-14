@@ -119,11 +119,21 @@ static void DELAYED_COPY_CODE(render_lores_line)(bool p2, uint line) {
     sl2->data[sl_pos] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 8 pixels per word
     sl_pos++;
 
-    sl1->length = sl_pos;
-    sl1->repeat_count = 7;
-    vga_submit_scanline(sl1);
+    if(internal_flags & IFLAGS_SCANLINEEMU) {
+        // Just insert a blank scanline between each rendered scanline
+        sl1->data[sl_pos] = THEN_WAIT_HSYNC;
+        sl2->data[sl_pos] = THEN_WAIT_HSYNC;
+        sl_pos++;
 
+        sl1->repeat_count = 3;
+        sl2->repeat_count = 3;
+    } else {
+        sl1->repeat_count = 7;
+        sl2->repeat_count = 7;
+    }
+
+    sl1->length = sl_pos;
     sl2->length = sl_pos;
-    sl2->repeat_count = 7;
+    vga_submit_scanline(sl1);
     vga_submit_scanline(sl2);
 }

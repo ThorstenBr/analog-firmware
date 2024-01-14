@@ -258,9 +258,14 @@ static void DELAYED_COPY_CODE(render_terminal_line)(uint16_t line) {
         }
     }
 
+    if(internal_flags & IFLAGS_SCANLINEEMU) {
+        // Just insert a blank scanline between each rendered scanline
+        sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+    } else {
+        sl->repeat_count = 1;
+    }
 
     sl->length = sl_pos;
-    sl->repeat_count = 1;
     vga_submit_scanline(sl);
 }
 

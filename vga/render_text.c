@@ -127,8 +127,13 @@ void DELAYED_COPY_CODE(render_text40_line)(bool p2, unsigned int line) {
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_7) | ((text_border|THEN_EXTEND_7) << 16); // 16 pixels per word
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 8 pixels per word
 
+        if(internal_flags & IFLAGS_SCANLINEEMU) {
+            // Just insert a blank scanline between each rendered scanline
+            sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+        } else {
+            sl->repeat_count = 1;
+        }
         sl->length = sl_pos;
-        sl->repeat_count = 1;
         vga_submit_scanline(sl);
     }
 }
@@ -174,8 +179,13 @@ void DELAYED_COPY_CODE(render_text80_line)(bool p2, unsigned int line) {
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_7) | ((text_border|THEN_EXTEND_7) << 16); // 16 pixels per word
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 8 pixels per word
 
+        if(internal_flags & IFLAGS_SCANLINEEMU) {
+            // Just insert a blank scanline between each rendered scanline
+            sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+        } else {
+            sl->repeat_count = 1;
+        }
         sl->length = sl_pos;
-        sl->repeat_count = 1;
         vga_submit_scanline(sl);
     }
 }
@@ -245,8 +255,13 @@ void DELAYED_COPY_CODE(render_color_text40_line)(unsigned int line) {
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_7) | ((text_border|THEN_EXTEND_7) << 16); // 16 pixels per word
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 8 pixels per word
 
+        if(internal_flags & IFLAGS_SCANLINEEMU) {
+            // Just insert a blank scanline between each rendered scanline
+            sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+        } else {
+            sl->repeat_count = 1;
+        }
         sl->length = sl_pos;
-        sl->repeat_count = 1;
         vga_submit_scanline(sl);
     }
 }
@@ -317,8 +332,13 @@ void DELAYED_COPY_CODE(render_color_text80_line)(unsigned int line) {
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_7) | ((text_border|THEN_EXTEND_7) << 16); // 16 pixels per word
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 8 pixels per word
 
+        if(internal_flags & IFLAGS_SCANLINEEMU) {
+            // Just insert a blank scanline between each rendered scanline
+            sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+        } else {
+            sl->repeat_count = 1;
+        }
         sl->length = sl_pos;
-        sl->repeat_count = 1;
         vga_submit_scanline(sl);
     }
 }

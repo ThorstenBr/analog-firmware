@@ -297,8 +297,13 @@ static void DELAYED_COPY_CODE(render_dhgr_line)(bool p2, uint line, bool mono) {
         sl->data[sl_pos++] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 16 pixels per word
     }
 
+    if(internal_flags & IFLAGS_SCANLINEEMU) {
+        // Just insert a blank scanline between each rendered scanline
+        sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+    } else {
+        sl->repeat_count = 1;
+    }
     sl->length = sl_pos;
-    sl->repeat_count = 1;
     vga_submit_scanline(sl);
 }
 

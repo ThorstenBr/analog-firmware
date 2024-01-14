@@ -119,6 +119,13 @@ bool DELAYED_COPY_CODE(parse_config)(uint32_t address) {
                     internal_flags &= ~IFLAGS_VIDEO7;
                 }
                 break;
+            case CFGTOKEN_SCANLINE:
+                if((config[i] >> 16) & 1) {
+                    internal_flags |= IFLAGS_SCANLINEEMU;
+                } else {
+                    internal_flags &= ~IFLAGS_SCANLINEEMU;
+                }
+                break;
 #elif defined(FUNCTION_Z80)
             case CFGTOKEN_MUX_LOOP:
                 serialmux[(config[i] >> 16) & 1] = SERIAL_LOOP;
@@ -210,6 +217,7 @@ void DELAYED_COPY_CODE(default_config)() {
     terminal_tbcolor = 0xf0;
     terminal_border = 0x00;
 
+    internal_flags &= ~IFLAGS_SCANLINEEMU;
     internal_flags |= IFLAGS_VIDEO7 | IFLAGS_V7_MODE3;
 #endif
 }
@@ -318,6 +326,7 @@ int DELAYED_COPY_CODE(make_config)(uint32_t rev) {
     config_temp[i++] = CFGTOKEN_BORDER | ((terminal_border & 0xF) << 16);
 
     config_temp[i++] = CFGTOKEN_VIDEO7 | ((internal_flags & IFLAGS_VIDEO7) ? (1ul<<16) : 0);
+    config_temp[i++] = CFGTOKEN_SCANLINE | ((internal_flags & IFLAGS_SCANLINEEMU) ? (1ul<<16) : 0);
 
     for(uint32_t j = 0; j < 16; j++) {
         config_temp[i++] = CFGTOKEN_RGBCOLOR | (j << 16);

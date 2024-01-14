@@ -87,7 +87,6 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line) {
         //                         current
         //                          pixel
         uint oddness = 0;
-        uint j;
             
         // Load in the first 14 dots
         dots |= (uint32_t)hires_dot_patterns[line_mem[0]] << 15;
@@ -117,7 +116,12 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line) {
     sl->data[sl_pos++] = (text_border|THEN_EXTEND_7) | ((text_border|THEN_EXTEND_7) << 16); // 16 pixels per word
     sl->data[sl_pos++] = (text_border|THEN_EXTEND_3) | ((text_border|THEN_EXTEND_3) << 16); // 16 pixels per word
 
+    if(internal_flags & IFLAGS_SCANLINEEMU) {
+        // Just insert a blank scanline between each rendered scanline
+        sl->data[sl_pos++] = THEN_WAIT_HSYNC;
+    } else {
+        sl->repeat_count = 1;
+    }
     sl->length = sl_pos;
-    sl->repeat_count = 1;
     vga_submit_scanline(sl);
 }
