@@ -136,9 +136,12 @@ static void __noinline __time_critical_func(core1_loop)() {
                 break;
             case 3:
 #ifdef FUNCTION_VGA
+                soft_switches = 0;
+                /*
                 soft_switches |= SOFTSW_TEXT_MODE;
                 soft_switches &= ~SOFTSW_80COL;
                 soft_switches &= ~SOFTSW_DGR;
+                */
                 internal_flags &= ~(IFLAGS_TERMINAL | IFLAGS_TEST);
                 internal_flags |= IFLAGS_V7_MODE3;
 #endif
