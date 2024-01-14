@@ -33,6 +33,7 @@ static void DELAYED_COPY_CODE(switch_font)() {
     } else if(userfont) {
         return;
     } else if(current_machine != machinefont) {
+        if (romx_textbank==0)
         switch(current_machine) {
         default:
         case MACHINE_II:

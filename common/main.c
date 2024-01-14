@@ -219,6 +219,7 @@ int main() {
 
     // Load the config from flash, or defaults
     read_config(true);
+    current_machine = cfg_machine;
 
 #if defined(FUNCTION_Z80) && defined(ANALOG_GS)
     uart_init(uart0, sio[0].baudrate);
